@@ -268,6 +268,7 @@
     display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative;
   }
   .thumb .swatch{ width:100%; height:100%; }
+  .thumb img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .25s ease; }
   .thumb .gloss{ position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,.35), rgba(255,255,255,0) 55%); }
   .line .info{ flex:1; min-width:0; }
   .line .pname{ font-size:16px; font-weight:700; color:var(--os-ink); }
@@ -467,22 +468,23 @@
 
 <script>
   /* ---------- claim data (5 orders to claim) ---------- */
+  const SITE = "https://gvanbrugghe-ai.github.io/fullpromise/";
   const orders = [
     { ref:"DV26061702", type:"Express", date:"16/07/2018", items:[
-      { name:"Summer dress", price:"€61.19", color:"Pink", size:"S", sku:"4_43", swatch:"#e8a8c0", qty:1 }
+      { name:"Summer dress", price:"€61.19", color:"Pink", size:"S", sku:"4_43", swatch:"#e8a8c0", img:"dress.png", qty:1 }
     ]},
     { ref:"DV26061701", type:"Standard", date:"16/07/2018", items:[
-      { name:"Blouse", price:"€32.40", color:"White", size:"S", sku:"2_8", swatch:"#f1f1f1", qty:1 }
+      { name:"Blouse", price:"€32.40", color:"White", size:"S", sku:"2_8", swatch:"#f1f1f1", img:"blouse.png", qty:1 }
     ]},
     { ref:"DV26061703", type:"Standard", date:"16/07/2018", items:[
-      { name:"Beaumont summit kit", price:"€29.00", color:"Red", size:"M", sku:"13_67", swatch:"#d65a52", qty:1 }
+      { name:"Beaumont summit kit", price:"€29.00", color:"Red", size:"M", sku:"13_67", swatch:"#d65a52", img:"beaumont.png", qty:1 }
     ]},
     { ref:"DV26061706", type:"Standard", date:"16/07/2018", items:[
-      { name:"Linen shirt", price:"€45.00", color:"Blue", size:"M", sku:"7_21", swatch:"#7ba6c9", qty:1 },
-      { name:"Chino trousers", price:"€52.00", color:"Beige", size:"32", sku:"9_14", swatch:"#d8c7a3", qty:1 }
+      { name:"Linen shirt", price:"€45.00", color:"Blue", size:"M", sku:"7_21", swatch:"#7ba6c9", img:"shirt.png", qty:1 },
+      { name:"Chino trousers", price:"€52.00", color:"Beige", size:"32", sku:"9_14", swatch:"#d8c7a3", img:"trousers.png", qty:1 }
     ]},
     { ref:"DV26061705", type:"Express", date:"17/07/2018", items:[
-      { name:"Knit scarf", price:"€18.50", color:"Grey", size:"One size", sku:"5_02", swatch:"#a7adb3", qty:1 }
+      { name:"Knit scarf", price:"€18.50", color:"Grey", size:"One size", sku:"5_02", swatch:"#a7adb3", img:"knit.png", qty:1 }
     ]}
   ];
 
@@ -496,7 +498,7 @@
 
     let linesHtml = o.items.map(it => `
       <div class="line">
-        <div class="thumb"><div class="swatch" style="background:${it.swatch}"></div><div class="gloss"></div></div>
+        <div class="thumb"><div class="swatch" style="background:${it.swatch}"></div><img src="${SITE}${it.img}" alt="${it.name}" onload="this.style.opacity=1" onerror="this.remove()"><div class="gloss"></div></div>
         <div class="info">
           <div class="pname">${it.name}</div>
           <div class="pvar">${it.price} | ${it.color} | ${it.size}</div>
